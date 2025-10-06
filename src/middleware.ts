@@ -1,20 +1,17 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { auth } from "./auth";
+import { getToken } from "next-auth/jwt";
 
-// runs only for /user-info and subpaths
-export async function middleware(request: NextRequest) {
-  console.log("middleware running for protected route");
+export async function middleware(req: Request) {
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
 
-  const session = await auth();
-
-  if (!session) {
-    return NextResponse.redirect(new URL("/api/auth/signin", request.url));
+  if (!token) {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
+  // optionally check roles, scopes, or token.id here
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/user-info"], // only these paths trigger middleware
+  matcher: ["/user-info", "/todo"],
 };

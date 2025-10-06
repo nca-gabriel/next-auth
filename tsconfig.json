@@ -27,8 +27,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/components/LoginBtn.ts",
-    "middleware.ts"
+    "src/components/LoginBtn.ts",
+    "middleware.ts",
+    "src/types/**/*.d.ts"
   ],
   "exclude": ["node_modules"]
 }
